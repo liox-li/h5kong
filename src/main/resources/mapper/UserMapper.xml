@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" 
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="com.kong.dao.UserMapper">
+
+<resultMap type="com.kong.entity.User" id="result">
+  <id column="id" property="id"  javaType="java.lang.Long"/>
+  <result column="PHONE" property="phone" />
+  <result column="NAME" property="name" />
+  <result column="PSW" property="psw" />
+  <result column="AGE" property="age" />
+  <result column="GENDER" property="gender" />
+  <result column="DESCRIPTION" property="description" />
+  <result column="CREATE_DATE" property="createDate" />
+</resultMap>
+<sql id="columns">
+U.ID,U.PHONE,U.NAME,U.PSW,U.AGE,U.GENDER,U.DESCRIPTION,U.CREATE_DATE
+</sql>
+<sql id="insert_columns">
+ID,PHONE,NAME,PSW,AGE,GENDER,DESCRIPTION,CREATE_DATE
+</sql>
+<sql id="insert_values">
+#{id},#{phone},#{name},#{psw},#{age},#{gender},#{description},#{createDate}
+</sql>
+<sql id="where">
+		<if test="id!=null and id!= '' ">
+			AND U.ID = #{id}
+		</if>
+		<if test="phone!=null and phone!= '' ">
+			AND U.PHONE = #{phone}
+		</if>
+		<if test="name!=null and name!= '' ">
+			AND U.NAME = #{name}
+		</if>
+		<if test="psw!=null and psw!= '' ">
+			AND U.PSW = #{psw}
+		</if>
+		<if test="age!=null and age!= '' ">
+			AND U.AGE = #{age}
+		</if>
+		<if test="gender!=null and gender!= '' ">
+			AND U.GENDER = #{gender}
+		</if>
+		<if test="description!=null and description!= '' ">
+			AND U.DESCRIPTION = #{description}
+		</if>
+		<if test="createDate!=null and createDate!= '' ">
+			AND U.CREATE_DATE = #{createDate}
+		</if>
+</sql>
+<!-- Useruser -->
+	<select id="listCount" resultType="java.lang.Integer" parameterType="com.kong.entity.User">
+		SELECT COUNT(ID) FROM USER
+		WHERE 1=1 <include refid="where"/>
+	</select>
+
+<!-- Useruser-->
+	<select id="selectByEntity" parameterType="com.kong.entity.User"
+		resultMap="result">
+		SELECT <include refid="columns"/>
+		FROM USER U
+      WHERE 1=1 <include refid="where"/>
+	</select>
+
+<!-- user-->
+	<select id="view" parameterType="java.lang.Long" 
+		resultMap="result">
+		SELECT <include refid="columns"/>
+		FROM USER U
+      WHERE U.ID=#{operatorId}
+	</select>
+
+<!-- Useruser-->
+<insert id="create" parameterType="com.kong.entity.User">
+	INSERT INTO USER(
+ <include refid="insert_columns"/>
+	)VALUES(<include refid="insert_values"/>)
+	</insert>
+
+<!-- user-->
+	<update id="updateById" parameterType="com.kong.entity.User">
+		UPDATE USER SET 
+		ID=#{id},PHONE=#{phone},NAME=#{name},PSW=#{psw},AGE=#{age},GENDER=#{gender},DESCRIPTION=#{description},CREATE_DATE=#{createDate}
+      WHERE ID=#{id}
+	</update>
+
+<!-- Useruser-->
+<!--	<update id="update" parameterType="com.kong.entity.User">
+		UPDATE USER set 
+		ID=#{id},PHONE=#{phone},NAME=#{name},PSW=#{psw},AGE=#{age},GENDER=#{gender},DESCRIPTION=#{description},CREATE_DATE=#{createDate}
+      WHERE  1=1 <include refid="where"/>
+	</update>-->
+
+<!-- 删除三user-->
+	<delete id="deleteById" parameterType="com.kong.entity.User">
+     DELETE FROM USER WHERE ID=#{id}
+	</delete>
+
+<!-- Useruser-->
+	<!--<delete id="delete" parameterType="com.kong.entity.User">
+     DELETE FROM USER WHERE 1=1 <include refid="where"/>
+	</delete>-->
+
+</mapper>

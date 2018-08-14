@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" 
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="com.kong.dao.CookbookPicMapper">
+
+<resultMap type="com.kong.entity.CookbookPic" id="result">
+  <id column="id" property="id"  javaType="java.lang.Long"/>
+  <result column="PIC_URL" property="picUrl" />
+  <result column="CREATE_DATE" property="createDate" />
+</resultMap>
+<sql id="columns">
+C.ID,C.PIC_URL,C.CREATE_DATE
+</sql>
+<sql id="insert_columns">
+ID,PIC_URL,CREATE_DATE
+</sql>
+<sql id="insert_values">
+#{id},#{picUrl},#{createDate}
+</sql>
+<sql id="where">
+		<if test="id!=null and id!= '' ">
+			AND C.ID = #{id}
+		</if>
+		<if test="picUrl!=null and picUrl!= '' ">
+			AND C.PIC_URL = #{picUrl}
+		</if>
+		<if test="createDate!=null and createDate!= '' ">
+			AND C.CREATE_DATE = #{createDate}
+		</if>
+</sql>
+<!-- CookbookPiccookbook_pic -->
+	<select id="listCount" resultType="java.lang.Integer" parameterType="com.kong.entity.CookbookPic">
+		SELECT COUNT(ID) FROM COOKBOOK_PIC
+		WHERE 1=1 <include refid="where"/>
+	</select>
+
+<!-- CookbookPiccookbook_pic-->
+	<select id="selectByEntity" parameterType="com.kong.entity.CookbookPic"
+		resultMap="result">
+		SELECT <include refid="columns"/>
+		FROM COOKBOOK_PIC C
+      WHERE 1=1 <include refid="where"/>
+	</select>
+
+<!-- cookbook_pic-->
+	<select id="view" parameterType="java.lang.Long" 
+		resultMap="result">
+		SELECT <include refid="columns"/>
+		FROM COOKBOOK_PIC C
+      WHERE C.ID=#{operatorId}
+	</select>
+
+<!-- CookbookPiccookbook_pic-->
+<insert id="create" parameterType="com.kong.entity.CookbookPic">
+	INSERT INTO COOKBOOK_PIC(
+ <include refid="insert_columns"/>
+	)VALUES(<include refid="insert_values"/>)
+	</insert>
+
+<!-- cookbook_pic-->
+	<update id="updateById" parameterType="com.kong.entity.CookbookPic">
+		UPDATE COOKBOOK_PIC SET 
+		ID=#{id},PIC_URL=#{picUrl},CREATE_DATE=#{createDate}
+      WHERE ID=#{id}
+	</update>
+
+<!-- CookbookPiccookbook_pic-->
+<!--	<update id="update" parameterType="com.kong.entity.CookbookPic">
+		UPDATE COOKBOOK_PIC set 
+		ID=#{id},PIC_URL=#{picUrl},CREATE_DATE=#{createDate}
+      WHERE  1=1 <include refid="where"/>
+	</update>-->
+
+<!-- 删除三cookbook_pic-->
+	<delete id="deleteById" parameterType="com.kong.entity.CookbookPic">
+     DELETE FROM COOKBOOK_PIC WHERE ID=#{id}
+	</delete>
+
+<!-- CookbookPiccookbook_pic-->
+	<!--<delete id="delete" parameterType="com.kong.entity.CookbookPic">
+     DELETE FROM COOKBOOK_PIC WHERE 1=1 <include refid="where"/>
+	</delete>-->
+
+</mapper>

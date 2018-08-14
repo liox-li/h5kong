@@ -1,0 +1,41 @@
+10
+
+dir
+5
+http://www.svnchina.com/svn/meike/h5-meike/src/main/webapp
+http://www.svnchina.com/svn/meike
+
+
+
+2017-10-14T13:14:47.628189Z
+5
+liox
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+c3abb935-98f5-41a8-a1ce-f6f6e3ab7a2e
+
+
+
+
+
+
+0
+
+WEB-INF
+dir
+
+static
+dir
+

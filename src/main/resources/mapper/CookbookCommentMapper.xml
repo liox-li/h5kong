@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" 
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="com.kong.dao.CookbookCommentMapper">
+
+<resultMap type="com.kong.entity.CookbookComment" id="result">
+  <id column="id" property="id"  javaType="java.lang.Long"/>
+  <result column="USER_ID" property="userId" />
+  <result column="COMMENT" property="comment" />
+  <result column="CREATE_DATE" property="createDate" />
+</resultMap>
+<sql id="columns">
+C.ID,C.USER_ID,C.COMMENT,C.CREATE_DATE
+</sql>
+<sql id="insert_columns">
+ID,USER_ID,COMMENT,CREATE_DATE
+</sql>
+<sql id="insert_values">
+#{id},#{userId},#{comment},#{createDate}
+</sql>
+<sql id="where">
+		<if test="id!=null and id!= '' ">
+			AND C.ID = #{id}
+		</if>
+		<if test="userId!=null and userId!= '' ">
+			AND C.USER_ID = #{userId}
+		</if>
+		<if test="comment!=null and comment!= '' ">
+			AND C.COMMENT = #{comment}
+		</if>
+		<if test="createDate!=null and createDate!= '' ">
+			AND C.CREATE_DATE = #{createDate}
+		</if>
+</sql>
+<!-- CookbookCommentcookbook_comment -->
+	<select id="listCount" resultType="java.lang.Integer" parameterType="com.kong.entity.CookbookComment">
+		SELECT COUNT(ID) FROM COOKBOOK_COMMENT
+		WHERE 1=1 <include refid="where"/>
+	</select>
+
+<!-- CookbookCommentcookbook_comment-->
+	<select id="selectByEntity" parameterType="com.kong.entity.CookbookComment"
+		resultMap="result">
+		SELECT <include refid="columns"/>
+		FROM COOKBOOK_COMMENT C
+      WHERE 1=1 <include refid="where"/>
+	</select>
+
+<!-- cookbook_comment-->
+	<select id="view" parameterType="java.lang.Long" 
+		resultMap="result">
+		SELECT <include refid="columns"/>
+		FROM COOKBOOK_COMMENT C
+      WHERE C.ID=#{operatorId}
+	</select>
+
+<!-- CookbookCommentcookbook_comment-->
+<insert id="create" parameterType="com.kong.entity.CookbookComment">
+	INSERT INTO COOKBOOK_COMMENT(
+ <include refid="insert_columns"/>
+	)VALUES(<include refid="insert_values"/>)
+	</insert>
+
+<!-- cookbook_comment-->
+	<update id="updateById" parameterType="com.kong.entity.CookbookComment">
+		UPDATE COOKBOOK_COMMENT SET 
+		ID=#{id},USER_ID=#{userId},COMMENT=#{comment},CREATE_DATE=#{createDate}
+      WHERE ID=#{id}
+	</update>
+
+<!-- CookbookCommentcookbook_comment-->
+<!--	<update id="update" parameterType="com.kong.entity.CookbookComment">
+		UPDATE COOKBOOK_COMMENT set 
+		ID=#{id},USER_ID=#{userId},COMMENT=#{comment},CREATE_DATE=#{createDate}
+      WHERE  1=1 <include refid="where"/>
+	</update>-->
+
+<!-- 删除三cookbook_comment-->
+	<delete id="deleteById" parameterType="com.kong.entity.CookbookComment">
+     DELETE FROM COOKBOOK_COMMENT WHERE ID=#{id}
+	</delete>
+
+<!-- CookbookCommentcookbook_comment-->
+	<!--<delete id="delete" parameterType="com.kong.entity.CookbookComment">
+     DELETE FROM COOKBOOK_COMMENT WHERE 1=1 <include refid="where"/>
+	</delete>-->
+
+</mapper>

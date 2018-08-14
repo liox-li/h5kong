@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" 
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="com.kong.dao.CookbookMapper">
+
+<resultMap type="com.kong.entity.Cookbook" id="result">
+  <id column="id" property="id"  javaType="java.lang.Long"/>
+  <result column="USER_ID" property="userId" />
+  <result column="TYPE_ID" property="typeId" />
+  <result column="NAME" property="name" />
+  <result column="RECIPEL" property="recipel" />
+  <result column="PIC" property="pic" />
+  <result column="MARK_NUM" property="markNum" />
+  <result column="FOLLOW_NUM" property="followNum" />
+  <result column="BUY_NUM" property="buyNum" />
+  <result column="VIEW_NUM" property="viewNum" />
+  <result column="DESCRIPTION" property="description" />
+  <result column="CREATE_DATE" property="createDate" />
+</resultMap>
+<sql id="columns">
+C.ID,C.USER_ID,C.TYPE_ID,C.NAME,C.RECIPEL,C.PIC,C.MARK_NUM,C.FOLLOW_NUM,C.BUY_NUM,C.VIEW_NUM,C.DESCRIPTION,C.CREATE_DATE
+</sql>
+<sql id="insert_columns">
+ID,USER_ID,TYPE_ID,NAME,RECIPEL,PIC,MARK_NUM,FOLLOW_NUM,BUY_NUM,VIEW_NUM,DESCRIPTION,CREATE_DATE
+</sql>
+<sql id="insert_values">
+#{id},#{userId},#{typeId},#{name},#{recipel},#{pic},#{markNum},#{followNum},#{buyNum},#{viewNum},#{description},#{createDate}
+</sql>
+<sql id="where">
+		<if test="id!=null and id!= '' ">
+			AND C.ID = #{id}
+		</if>
+		<if test="userId!=null and userId!= '' ">
+			AND C.USER_ID = #{userId}
+		</if>
+		<if test="typeId!=null and typeId!= '' ">
+			AND C.TYPE_ID = #{typeId}
+		</if>
+		<if test="name!=null and name!= '' ">
+			AND C.NAME = #{name}
+		</if>
+		<if test="recipel!=null and recipel!= '' ">
+			AND C.RECIPEL = #{recipel}
+		</if>
+		<if test="pic!=null and pic!= '' ">
+			AND C.PIC = #{pic}
+		</if>
+		<if test="markNum!=null and markNum!= '' ">
+			AND C.MARK_NUM = #{markNum}
+		</if>
+		<if test="followNum!=null and followNum!= '' ">
+			AND C.FOLLOW_NUM = #{followNum}
+		</if>
+		<if test="buyNum!=null and buyNum!= '' ">
+			AND C.BUY_NUM = #{buyNum}
+		</if>
+		<if test="viewNum!=null and viewNum!= '' ">
+			AND C.VIEW_NUM = #{viewNum}
+		</if>
+		<if test="description!=null and description!= '' ">
+			AND C.DESCRIPTION = #{description}
+		</if>
+		<if test="createDate!=null and createDate!= '' ">
+			AND C.CREATE_DATE = #{createDate}
+		</if>
+</sql>
+<!-- Cookbookcookbook -->
+	<select id="listCount" resultType="java.lang.Integer" parameterType="com.kong.entity.Cookbook">
+		SELECT COUNT(ID) FROM COOKBOOK
+		WHERE 1=1 <include refid="where"/>
+	</select>
+
+<!-- Cookbookcookbook-->
+	<select id="selectByEntity" parameterType="com.kong.entity.Cookbook"
+		resultMap="result">
+		SELECT <include refid="columns"/>
+		FROM COOKBOOK C
+      WHERE 1=1 <include refid="where"/>
+	</select>
+
+<!-- cookbook-->
+	<select id="view" parameterType="java.lang.Long" 
+		resultMap="result">
+		SELECT <include refid="columns"/>
+		FROM COOKBOOK C
+      WHERE C.ID=#{operatorId}
+	</select>
+
+<!-- Cookbookcookbook-->
+<insert id="create" parameterType="com.kong.entity.Cookbook">
+	INSERT INTO COOKBOOK(
+ <include refid="insert_columns"/>
+	)VALUES(<include refid="insert_values"/>)
+	</insert>
+
+<!-- cookbook-->
+	<update id="updateById" parameterType="com.kong.entity.Cookbook">
+		UPDATE COOKBOOK SET 
+		ID=#{id},USER_ID=#{userId},TYPE_ID=#{typeId},NAME=#{name},RECIPEL=#{recipel},PIC=#{pic},MARK_NUM=#{markNum},FOLLOW_NUM=#{followNum},BUY_NUM=#{buyNum},VIEW_NUM=#{viewNum},DESCRIPTION=#{description},CREATE_DATE=#{createDate}
+      WHERE ID=#{id}
+	</update>
+
+<!-- Cookbookcookbook-->
+<!--	<update id="update" parameterType="com.kong.entity.Cookbook">
+		UPDATE COOKBOOK set 
+		ID=#{id},USER_ID=#{userId},TYPE_ID=#{typeId},NAME=#{name},RECIPEL=#{recipel},PIC=#{pic},MARK_NUM=#{markNum},FOLLOW_NUM=#{followNum},BUY_NUM=#{buyNum},VIEW_NUM=#{viewNum},DESCRIPTION=#{description},CREATE_DATE=#{createDate}
+      WHERE  1=1 <include refid="where"/>
+	</update>-->
+
+<!-- 删除三cookbook-->
+	<delete id="deleteById" parameterType="com.kong.entity.Cookbook">
+     DELETE FROM COOKBOOK WHERE ID=#{id}
+	</delete>
+
+<!-- Cookbookcookbook-->
+	<!--<delete id="delete" parameterType="com.kong.entity.Cookbook">
+     DELETE FROM COOKBOOK WHERE 1=1 <include refid="where"/>
+	</delete>-->
+
+</mapper>
